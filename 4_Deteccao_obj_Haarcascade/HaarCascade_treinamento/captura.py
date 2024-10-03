@@ -7,7 +7,7 @@ amostra = 1 #amostra (variavel) que vai iniciar com 1
 
 while True:
     check,img = video.read()
-    imgCinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  #converter para cinza
+    imgCinza = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)  #converter para cinza
 
     if cv2.waitKey(1) & 0XFF ==ord('q'):  #capturar a img qdo pressionar o q dentro da pasta fotos p (positivas)
         imgR = cv2.resize(imgCinza,(220,220))  #alterar o tamanho da img 220 x 220
@@ -15,5 +15,5 @@ while True:
         amostra +=1   #cada vez que salvar uma img vai acrescentar o numer na img
 
 
-cv2.imshow('Captura img lampada', img)
-cv2.waitKey(1)
+    cv2.imshow('Captura img lampada', img)
+    cv2.waitKey(1)
