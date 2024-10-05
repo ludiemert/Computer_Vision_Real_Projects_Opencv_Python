@@ -5,6 +5,9 @@ import  cv2
 #recuperar as inf que gravou no arquivo
 import pickle
 
+import numpy as np  #usar o kernel da biblioteca  numpy
+
+
 #variavel vacancies array vazio
 vacancies = []
 
@@ -24,11 +27,16 @@ while True:
     imgTh = cv2.adaptiveThreshold(imgCinza,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,25,16)    #thereshold adaptativo
     imgMedian = cv2.medianBlur(imgTh,5)   # Tirar mais ruídos da img (ficar mais limpa)
 
+    kernel = np.ones((3,3),np.int8)  #3 linhas por 3 colunas
+    imgDil = cv2.dilate(imgMedian,kernel)   #expandir mais os pixels, morfologia  da dilatacao, usar o kernel da biblioteca  (numpy import numpy as np)
+
 
 #verificar se as coordenadas funcionara
     for x,y,w,h in vacancies:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 
     cv2.imshow('video color',img)
-    cv2.imshow('video TH',imgMedian)
+    #cv2.imshow('video TH',imgMedian)
+    cv2.imshow('video TH', imgDil)
+
     cv2.waitKey(10)  #delay de 10ml seg para o video ficar mais lento
