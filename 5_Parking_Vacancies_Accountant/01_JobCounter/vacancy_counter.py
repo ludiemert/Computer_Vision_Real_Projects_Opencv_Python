@@ -1,0 +1,34 @@
+from distutils.command.check import check
+
+import  cv2
+
+#recuperar as inf que gravou no arquivo
+import pickle
+
+#variavel vacancies array vazio
+vacancies = []
+
+#ler e abrir o arquivo salvo
+with open('vacancies.pkl','rb') as archive: #rb => ler
+    vacancies = pickle.load(archive)#carregar o arquivo (archive)
+
+#verificar as coordenadas
+print(vacancies)
+
+#carrega  o video
+video = cv2.VideoCapture('video.mp4')
+
+while True:
+    check,img = video.read()
+    imgCinza = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    imgTh = cv2.adaptiveThreshold(imgCinza,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,25,16)    #thereshold adaptativo
+    imgMedian = cv2.medianBlur(imgTh,5)   # Tirar mais ruídos da img (ficar mais limpa)
+
+
+#verificar se as coordenadas funcionara
+    for x,y,w,h in vacancies:
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+    cv2.imshow('video color',img)
+    cv2.imshow('video TH',imgMedian)
+    cv2.waitKey(10)  #delay de 10ml seg para o video ficar mais lento
