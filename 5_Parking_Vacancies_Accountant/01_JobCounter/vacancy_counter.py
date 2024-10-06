@@ -6,7 +6,7 @@ import  cv2
 import pickle
 
 import numpy as np  #usar o kernel da biblioteca  numpy
-
+from numpy.ma import count
 
 #variavel vacancies array vazio
 vacancies = []
@@ -33,7 +33,12 @@ while True:
 
 #verificar se as coordenadas funcionara
     for x,y,w,h in vacancies:
-        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        vacancy = imgDil[y:y+h,x:x+w]    #medir a intensidade de cada vaga - e recortar a img - aquela area - variavel
+        count = cv2.countNonZero(vacancy)
+        cv2.putText(img,str(count),(x,y+h-10),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2) #contagem dos pixls brancos
+
+
 
     cv2.imshow('video color',img)
     #cv2.imshow('video TH',imgMedian)
